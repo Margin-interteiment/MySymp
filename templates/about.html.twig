@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+ <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="{{ asset('node_modules/swiper/swiper-bundle.min.css') }}">
+    <script src="{{ asset('node_modules/swiper/swiper-bundle.min.js') }}" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+</head>
+<body>
+
+
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            new Swiper(".mySwiper", {
+                loop: true,
+                 autoplay: {
+                    delay: 3000,
+                     disableOnInteraction: false,
+                 },
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+            });
+        });
+    </script>
+
+    {% include 'includes/header.html.twig' with {
+        imageUrlForHeaderOne: imageUrlForHeaderOne,
+        imageUrlForHeaderTwo: imageUrlForHeaderTwo,
+        imageUrlForHeaderThree: imageUrlForHeaderThree,
+        imageUrlForHeaderFour: imageUrlForHeaderFour,
+        imageUrlForHeaderFive: imageUrlForHeaderFive,
+        logo: logo,
+        homeLink: homeLink,
+        aboutLink: aboutLink,
+        adventureText: adventureText,
+        titleOfHeader: titleOfHeader,
+        currentDate: currentDate
+    } %}
+
+    <main >
+
+    <section class="container mx-auto px-4 py-8"> 
+     <h1 class="text-[36px] color-[#495057]">{{AboutTitle}}</h1> 
+        <div class="flex justify-between text-gray-500 text-sm mt-[30px]">
+            <span>{{ currentDate|date("d.m.Y") }}</span>
+            <span>{{AboutTime}}</span>
+        </div>
+        <article class="mt-4 text-lg text-gray-700 leading-relaxed">
+            <p>{{AboutTextOne}}</p>
+            <p class="mt-[20px]">
+            {{AboutTextTwo}}
+            </p>
+            <blockquote class="mt-6 text-2xl text-orange-400 font-serif border-l-4 border-orange-300 pl-4">
+               {{AboutTextThree}}
+            </blockquote>
+            <p class="mt-4">{{AboutTextFour}}</p>
+        </article>
+        <div class="mt-8 border-t border-gray-300 pt-4 flex items-center">
+            <img src={{imageUrlForHeaderThree}} alt="photo" class="w-12 h-12 rounded-full">
+            <div class="ml-4">
+                <p class="font-semibold">{{AboutBlogAuthor}}</p>
+                <p class="text-gray-500 text-sm">{{AboutBlogAuthorOfDesc}}</p>
+            </div>
+        </div>
+        </section>
+
+
+     <section class="PopularTopics mt-[100px] ml-[50px]"> 
+
+      <h2 class="text-[36px] color-[#495057] ml-[163px]">{{PopularTopics}}</h2>
+
+     </section>
+
+    </main>
+
+    {% include 'includes/footer.html.twig' %}   
+</body>
+</html>

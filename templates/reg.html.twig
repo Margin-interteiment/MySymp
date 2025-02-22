@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реєстрація</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-[#A0BEDE]">
+
+    <main> 
+        <section class="h-screen flex flex-col justify-between bg-cover bg-center bg-no-repeat m-0" 
+                 style="background-image: url('{{ asset(BackRegister) }}');">
+
+            <div class="flex-grow flex justify-center items-center bg-cover bg-center bg-no-repeat" 
+                 style="background-image: url('{{ asset(Clouds) }}');">
+                
+                <form method="post" 
+                      class="space-y-6 bg-[#F7F5F2]/50 p-8 rounded-xl shadow-md w-full max-w-lg mx-auto h-[562px] bg-cover bg-center bg-no-repeat" 
+                      style="background-image: url('{{ asset(BackForm) }}');">
+                    
+                    {{ form_start(formReg) }}
+
+                    <h2 class="text-center text-white text-[25px] font-semibold">Registration</h2>
+
+                    <div>
+                        {{ form_label(formReg.name, 'Ваше ім\'я', {'label_attr': {'class': 'block text-lg font-semibold text-white'}}) }}
+                        {{ form_widget(formReg.name, {'attr': {'class': 'w-full p-3 border-b border-white focus:outline-none focus:ring-0 bg-transparent', 'placeholder': ''}}) }}
+                    </div>
+
+                    <div>
+                        {{ form_label(formReg.email, 'Ваш email', {'label_attr': {'class': 'block text-lg font-semibold text-white'}}) }}
+                        {{ form_widget(formReg.email, {'attr': {'class': 'w-full p-3 border-b border-white focus:outline-none focus:ring-0 bg-transparent', 'placeholder': ''}}) }}
+                    </div>
+
+                    <div>
+                        {{ form_label(formReg.password, 'Ваш пароль', {'label_attr': {'class': 'block text-lg font-semibold text-white'}}) }}
+                        {{ form_widget(formReg.password, {'attr': {'class': 'w-full p-3 border-b border-white focus:outline-none focus:ring-0 bg-transparent', 'placeholder': ''}}) }}
+                    </div>
+
+                    <div class="mt-8">
+                        {{ form_widget(formReg.submit, {'attr': {'class': 'w-full bg-[#CB4C96] text-white font-semibold py-3 rounded-lg transition duration-300 ease-in-out hover:bg-[#89A7D6] mt-[50px]'}}) }}
+                    </div>
+
+                    {{ form_end(formReg) }}
+                </form>
+
+                <p class="text-center text-white text-lg mt-6 relative transform -translate-x-[950px] translate-y-[246px] translate-z-[10px]">
+                    Є акаунт? 
+                    <a href="{{ path('enter') }}" class="text-[#5A6B84] hover:text-[#3F506B] underline transition duration-300">
+                        Війти
+                    </a>
+                </p>
+
+            </div>
+
+        </section>      
+    </main>
+
+</body>
+</html>
