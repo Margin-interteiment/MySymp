@@ -2,7 +2,7 @@
 <html lang="ua">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
+    <title>{% block title %}Головна сторінка{% endblock %}</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="{{ asset('node_modules/swiper/swiper-bundle.min.css') }}">
     <script src="{{ asset('node_modules/swiper/swiper-bundle.min.js') }}" defer></script>
@@ -12,8 +12,28 @@
 <body class="bg-[#F8F9FA] h-screen">  
 
 
+ {% include 'includes/header.html.twig' with {
+        imageUrlForHeaderOne: imageUrlForHeaderOne,
+        imageUrlForHeaderTwo: imageUrlForHeaderTwo,
+        imageUrlForHeaderThree: imageUrlForHeaderThree,
+        imageUrlForHeaderFour: imageUrlForHeaderFour,
+        imageUrlForHeaderFive: imageUrlForHeaderFive,
+        logo: logo,
+        homeLink: homeLink,
+        aboutLink: aboutLink,
+        adventureText: adventureText,
+        titleOfHeader: titleOfHeader,
+        currentDate: currentDate,
+       
+    } %}
 
 
+    <main class="main">
+        {% block content %}{% endblock %}
+    </main>
+
+
+{% include 'includes/footer.html.twig' %}
 
  <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -31,61 +51,9 @@
                     nextEl: ".swiper-button-next",
                     prevEl: ".swiper-button-prev",
                 },
-            });
-        });
+            })
+        })
     </script>
-
-
-{# {% include 'includes/header.html.twig' %} #}
-
-
- {% include 'includes/header.html.twig' with {
-        imageUrlForHeaderOne: imageUrlForHeaderOne,
-        imageUrlForHeaderTwo: imageUrlForHeaderTwo,
-        imageUrlForHeaderThree: imageUrlForHeaderThree,
-        imageUrlForHeaderFour: imageUrlForHeaderFour,
-        imageUrlForHeaderFive: imageUrlForHeaderFive,
-        logo: logo,
-        homeLink: homeLink,
-        aboutLink: aboutLink,
-        adventureText: adventureText,
-        titleOfHeader: titleOfHeader,
-        currentDate: currentDate,
-        iconLogout:IconLogout
-    } %}
-
-
-
-<main class="main"> 
-
-<section class="MyTopics mt-[100px] ml-[50px]"> 
-<div class="MainTopics">
-<h2 class="text-[36px] color-[#495057]">{{MyTopics}}</h2>
-</div>
-</section>
-
-
-<section class="FashionInfo mt-[800px]"> 
-<div class="bg-cover bg-center h-149 flex flex-col justify-center items-center" style="background-image: url('{{ asset(ImageForFashion) }}');"> 
-    <p class="text-white bg-white/21 mt-[30px] max-w-[125px] rounded-[13px] p-[11px] ml-[30px] pl-[18px] text-center">{{fashionOfText}}</p>
-    <h1 class="text-white text-[36px] mt-[30px] max-w-[700px] ml-[30px] text-center">{{fashionOfTitle}}</h1>
-    <p class="text-white text-[17px] max-w-[800px] text-center mt-[30px] relative after:content-[''] after:block after:w-[7%] after:h-[2px] after:bg-white after:mt-[20px] after:ml-[383px]">{{fashionOfParagraph}}</p>
-    <p class="text-white mt-[30px] ml-[30px] text-center">{{ currentDate|date("d.m.Y") }}</p>
-
-</div>
-</section>
-
-
-<section class="PopularTopics mt-[100px] ml-[50px]"> 
-
-<h2 class="text-[36px] color-[#495057]">{{PopularTopics}}</h2>
-
-</section>
-</main>
-
-
-
-{% include 'includes/footer.html.twig' %}
 
 
 </body>

@@ -11,16 +11,16 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
- * Контролер для обробки реєстрації користувачів.
+ * Controller for user registration handling.
  */
 class RegController extends AbstractController
 {
     /**
-     * Відображає сторінку реєстрації та створює форму реєстрації.
+     * Displays the registration page and creates the registration form.
      *
-     * @return Response Відповідь із відрендереним шаблоном.
+     * @return Response 
      */
-    #[Route('/Registration', name: 'Registration')]
+    #[Route('/registration', name: 'registration')]
     public function Registration(): Response
     {
         

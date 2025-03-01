@@ -11,17 +11,19 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
- * Контролер для обробки входу користувачів.
+ * Controller for handling user login.
  */
-class EnterController extends AbstractController
+class LoginController extends AbstractController
 {
     /**
-     * Відображає сторінку входу та обробляє введені дані.
+     * Displays the login page and processes user input.
      *
-     * @param Request $request HTTP-запит із введеними користувачем даними.
-     * @return Response Відповідь із відрендереним шаблоном або перенаправленням.
+     * @param Request 
+     * @return Response 
      */
-    #[Route('/enter', name: 'enter')]
+    #[Route('/login', name: 'login')]
+   
+
     public function enter(Request $request): Response
     {
        
@@ -57,7 +59,7 @@ class EnterController extends AbstractController
         }
 
        
-        return $this->render('enter.html.twig', [
+        return $this->render('login.html.twig', [
             'BackRegister' => '/images/back-register.png',
             'BgFooter' => '/images/bg-footer.png',
             'Clouds' => '/images/clouds.png',

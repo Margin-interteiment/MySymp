@@ -7,14 +7,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Контролер для сторінки "Про блог".
+ * Controller for the "About Blog" page.
  */
 class AboutController extends AbstractController
 {
     /**
-     * Відображає сторінку "Про блог".
+     * Displays the "About Blog" page.
      *
-     * @return Response Відповідь із відрендереним шаблоном.
+     * @return Response 
      */
     #[Route('/about', name: 'about')]
     public function index(): Response

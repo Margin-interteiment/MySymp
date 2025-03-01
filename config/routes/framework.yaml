@@ -2,31 +2,4 @@ when@dev:
     _errors:
         resource: '@FrameworkBundle/Resources/config/routing/errors.xml'
         prefix: /_error
-about:
-    path: /about
-    controller: App\Controller\AboutController::index
-    methods: GET
-
-createBlog:
-    path: /createBlog
-    controller: App\Controller\AboutController::createBlog
-    methods: GET
-
-
-Registration:
-    path: /Registration
-    controller:  App\Controller\RegController::Registration
-    methods: GET
-
-
-enter:
-    path: /enter
-    controller:  App\Controller\EnterController::enter
-    methods: GET
-
-
-homepage:
-    path: /
-    controller: App\Controller\HomeController::home
-
 

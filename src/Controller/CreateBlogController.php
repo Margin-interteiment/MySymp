@@ -12,14 +12,14 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
- * Контролер для створення нового блогу.
+ * Controller for creating a new blog.
  */
 class CreateBlogController extends AbstractController
 {
     /**
-     * Відображає форму для створення блогу та обробляє введені дані.
+     * Displays the form for creating a blog and processes the submitted data.
      *
-     * @return Response Відповідь із відрендереним шаблоном.
+     * @return Response 
      */
     #[Route('/createBlog', name: 'createBlog')]
     public function createBlog(Request $request): Response
