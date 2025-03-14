@@ -7,48 +7,32 @@
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
 <body class="bg-[#A0BEDE]">
-
     <main> 
         <section class="h-screen flex flex-col justify-between bg-cover bg-center bg-no-repeat m-0" 
                  style="background-image: url('{{ asset(BackRegister) }}');">
-
             <div class="flex-grow flex justify-center items-center bg-cover bg-center bg-no-repeat" 
                  style="background-image: url('{{ asset(Clouds) }}');">
-                
                 <form method="post" 
                       class="space-y-6 bg-[#F7F5F2]/50 p-8 rounded-xl shadow-md w-full max-w-lg mx-auto h-[562px] bg-cover bg-center bg-no-repeat" 
                       style="background-image: url('{{ asset(BackForm) }}');"
-                      action="{{ path('homepage') }}"
-                      
-                      >
-                    
+                      action="{{ path('homepage') }}">
                     {{ form_start(formEnter) }}
-
-                    <h2 class="text-center text-white text-[25px] font-semibold">Enter</h2>
-
-
+                    <h2 class="text-center text-white text-[25px] font-semibold">Login</h2>
                     <div>
                         {{ form_label(formEnter.email, 'Ваш email', {'label_attr': {'class': 'block text-lg font-semibold text-white'}}) }}
                         {{ form_widget(formEnter.email, {'attr': {'class': 'w-full p-3 border-b border-white focus:outline-none focus:ring-0 bg-transparent', 'placeholder': ''}}) }}
                     </div>
-
                     <div>
                         {{ form_label(formEnter.password, 'Ваш пароль', {'label_attr': {'class': 'block text-lg font-semibold text-white'}}) }}
                         {{ form_widget(formEnter.password, {'attr': {'class': 'w-full p-3 border-b border-white focus:outline-none focus:ring-0 bg-transparent', 'placeholder': ''}}) }}
                     </div>
-
                     <div class="mt-8">
                         {{ form_widget(formEnter.submit, {'attr': {'class': 'w-full bg-[#CB4C96] text-white font-semibold py-3 rounded-lg transition duration-300 ease-in-out hover:bg-[#89A7D6] mt-[50px]'}}) }}
                     </div>
-
                     {{ form_end(formEnter) }}
                 </form>
-
-              
             </div>
-
         </section>      
     </main>
-
 </body>
 </html>

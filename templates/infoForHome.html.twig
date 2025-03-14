@@ -4,29 +4,90 @@
 {% block content %} 
  <section class="MyTopics mt-[100px] ml-[50px]"> 
 <div class="MainTopics">
-<h2 class="text-[36px] color-[#495057]">{{MyTopics}}</h2>
+<h2 class="text-[36px] color-[#495057]  relative left-[768px] w-[200px]">{{MyTopics}}</h2>
+<div class="flex flex-wrap gap-[calc(var(--spacing)*7)] ml-[100px] mt-[100px]">
+{% for article in articles %}
+    <div class="article bg-gray-100 p-4 rounded-lg shadow-md mt-4 w-[500px] h-[500px] flex flex-col justify-between relative" id="article-{{ article.id }}">
+               
+        <div class="absolute top-[calc(var(--spacing)*94)] right-2 cursor-pointer" onclick="toggleMenu({{ article.id }})">
+            <img src="{{ asset(dots) }}" alt="Article Image" class="w-[37px] h-auto">
+        </div>
+      
+        <div id="menu-{{ article.id }}" class="absolute top-10 right-2 bg-white shadow-lg rounded-lg p-2 space-y-2 hidden">
+            <button class="text-sm text-gray-600 w-full text-left" onclick="editArticle({{ article.id }})">Редагувати</button>
+            <button class="text-sm text-gray-600 w-full text-left" onclick="deleteArticle({{ article.id }}, document.getElementById('article-{{ article.id }}'))">Видалити</button>
+        </div>
+
+        <a href="{{ path('article_show', {'id': article.id}) }}" class="flex flex-col justify-between">
+            <img src="{{ asset('uploads/articles/' ~ article.image) }}" alt="Article Image" class="mt-4 max-w-full h-auto rounded-lg">
+            <h3 class="text-xl font-bold mt-4">{{ article.title }}</h3>
+            <p class="text-sm text-gray-400 mt-2">{{ article.createdAt|date("d.m.Y") }}</p>
+        </a>
+    </div>
+{% else %}
+    <p class="text-gray-500">Статей ще немає...</p>
+{% endfor %}
+
 </div>
+
+</div>
+
+<script>
+    function toggleMenu(articleId) {
+        var menu = document.getElementById('menu-' + articleId);
+        menu.classList.toggle('hidden');
+    }
+
+    function editArticle(articleId) {
+    window.location.href = '/article/edit/' + articleId;  
+    }
+
+    function deleteArticle(articleId, articleElement) {
+    if (confirm('Ви впевнені, що бажаєте видалити цю статю?')) {
+        fetch('/article/delete', {  
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: articleId }) 
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                articleElement.remove();
+            } else {
+                alert(data.error || 'Помилка при видалені статі');
+            }
+        })
+        .catch(error => console.error('Помилка:', error));
+    }
+    }
+
+</script>
 </section>
 
-
-<section class="FashionInfo mt-[800px]"> 
+<section class="FashionInfo mt-[100px]"> 
 <div class="bg-cover bg-center h-149 flex flex-col justify-center items-center" style="background-image: url('{{ asset(ImageForFashion) }}');"> 
     <p class="text-white bg-white/21 mt-[30px] max-w-[125px] rounded-[13px] p-[11px] ml-[30px] pl-[18px] text-center">{{fashionOfText}}</p>
     <h1 class="text-white text-[36px] mt-[30px] max-w-[700px] ml-[30px] text-center">{{fashionOfTitle}}</h1>
     <p class="text-white text-[17px] max-w-[800px] text-center mt-[30px] relative after:content-[''] after:block after:w-[7%] after:h-[2px] after:bg-white after:mt-[20px] after:ml-[383px]">{{fashionOfParagraph}}</p>
     <p class="text-white mt-[30px] ml-[30px] text-center">{{ currentDate|date("d.m.Y") }}</p>
-
 </div>
 </section>
 
-
 <section class="PopularTopics mt-[100px] ml-[50px]"> 
-
-<h2 class="text-[36px] color-[#495057]">{{PopularTopics}}</h2>
-
+<h2 class="text-[36px] color-[#495057]  relative left-[768px] w-[421px]">{{PopularTopics}}</h2>
+<div class="flex flex-wrap gap-4 gap-[calc(var(--spacing)*7)] ml-[100px] mt-[100px]">
+ {% for article in articles|slice(0, 3) %}
+    <div class="article bg-gray-100 p-4 rounded-lg shadow-md mt-4 w-[500px] h-[500px] flex flex-col justify-between relative" id="article-{{ article.id }}">
+        <a href="{{ path('article_show', {'id': article.id}) }}" class="flex flex-col justify-between">
+            <img src="{{ asset('uploads/articles/' ~ article.image) }}" alt="Article Image" class="mt-4 max-w-full h-auto rounded-lg">
+            <h3 class="text-xl font-bold mt-4">{{ article.title }}</h3>
+            <p class="text-sm text-gray-400 mt-2">{{ article.createdAt|date("d.m.Y") }}</p>
+        </a>
+    </div>
+{% else %}
+    <p class="text-gray-500">Статей ще немає...</p>
+{% endfor %}
+</div>
 </section>{% endblock %}
-
-
-
-
-

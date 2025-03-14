@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,6 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+use Symfony\Component\Form\FormError; 
 
 /**
  * Controller for handling user login.
@@ -22,9 +25,7 @@ class LoginController extends AbstractController
      * @return Response 
      */
     #[Route('/login', name: 'login')]
-   
-
-    public function enter(Request $request): Response
+    public function enter(Request $request, UserRepository $userRepository): Response
     {
        
         $formEnter = $this->createFormBuilder()
@@ -53,9 +54,22 @@ class LoginController extends AbstractController
       
         $formEnter->handleRequest($request);
 
-        
         if ($formEnter->isSubmitted() && $formEnter->isValid()) {
-            return $this->redirectToRoute('homepage');
+            $data = $formEnter->getData();
+            $email = $data['email'];
+            $password = $data['password'];
+
+            
+            $user = $userRepository->findOneBy(['email' => $email]);
+
+            if ($user && $user->getPassword() === $password) {
+                
+                return $this->redirectToRoute('homepage');
+            } else {
+                
+                $formEnter->get('email')->addError(new FormError('Не правильний email або пароль'));
+                $formEnter->get('password')->addError(new FormError('Не правильний email або пароль'));
+            }
         }
 
        

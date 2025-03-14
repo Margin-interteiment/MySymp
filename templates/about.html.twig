@@ -2,7 +2,6 @@
 
 {% block title %}About us{% endblock %}
 
-
     {% block content %}
 
     <section class="container mx-auto px-4 py-8"> 
@@ -32,10 +31,21 @@
 
 
      <section class="PopularTopics mt-[100px] ml-[50px]"> 
-
       <h2 class="text-[36px] color-[#495057] ml-[163px]">{{PopularTopics}}</h2>
-
-     </section>
+      <div class="flex flex-wrap gap-4 gap-[calc(var(--spacing)*7)] ml-[100px] mt-[100px]">
+     {% for article in articles|slice(0, 3) %}
+    <div class="article bg-gray-100 p-4 rounded-lg shadow-md mt-4 w-[500px] h-[500px] flex flex-col justify-between relative" id="article-{{ article.id }}">
+        <a href="{{ path('article_show', {'id': article.id}) }}" class="flex flex-col justify-between">
+            <img src="{{ asset('uploads/articles/' ~ article.image) }}" alt="Article Image" class="mt-4 max-w-full h-auto rounded-lg">
+            <h3 class="text-xl font-bold mt-4">{{ article.title }}</h3>
+            <p class="text-sm text-gray-400 mt-2">{{ article.createdAt|date("d.m.Y") }}</p>
+        </a>
+    </div>
+   {% else %}
+    <p class="text-gray-500">Статей ще немає...</p>
+   {% endfor %}
+    </div>
+   </section>
 
    {% endblock %}
 
