@@ -2,6 +2,10 @@
 
 namespace App\Controller;
 
+
+use App\Entity\Article;
+use App\Repository\ArticleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,11 +21,12 @@ class AboutController extends AbstractController
      * @return Response 
      */
     #[Route('/about', name: 'about')]
-    public function index(): Response
+    public function index(ArticleRepository $articleRepository): Response
     {
         
         $currentDate = new \DateTime();
 
+        $articles = $articleRepository->findAll(); 
        
         return $this->render('about.html.twig', [
             'title' => 'About Page',
@@ -36,7 +41,7 @@ class AboutController extends AbstractController
             'aboutLink' => 'About Blog',
             'createBlog' => 'Create Blog',
             'adventureText' => 'ADVENTURE',
-            'titleOfHeader' => 'Richird Norton photorealistic rendering as real photos',
+            'titleOfHeader' => 'Blog photorealistic rendering as real photos',
             'PopularTopics' => 'Popular topics',
             'AboutTitle' => 'About Blog',
             'AboutTime' => '4 minutes',
@@ -46,6 +51,7 @@ class AboutController extends AbstractController
             'AboutTextFour' => 'Compellingly enhance seamless resources through competitive content. Continually actualize 24/365 alignments for resource-leveling platforms. Energistically enhance high standards in models and professional expertise. Intrinsicly iterate extensible metrics for prospective opportunities. Continually develop leading-edge experiences through quality e-services.',
             'AboutBlogAuthor' => 'By Margarita',
             'AboutBlogAuthorOfDesc' => 'text & writer',
+            'articles' => $articles,
         ]);
     }
 }

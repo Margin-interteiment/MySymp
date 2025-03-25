@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,7 +24,7 @@ class RegController extends AbstractController
      * @return Response 
      */
     #[Route('/registration', name: 'registration')]
-    public function Registration(): Response
+    public function Registration(Request $request, UserRepository $userRepository): Response
     {
         
         $formReg = $this->createFormBuilder()
@@ -54,7 +57,22 @@ class RegController extends AbstractController
             ])
             ->getForm();
 
-        
+            $formReg->handleRequest($request);
+
+            if ($formReg->isSubmitted() && $formReg->isValid()) {
+                $data = $formReg->getData();
+                $user = new User();
+                $user->setName($data['name']);
+                $user->setEmail($data['email']);
+                
+                
+                $user->setPassword($data['password']);
+            
+                
+                $userRepository->save($user);
+                
+            }
+                    
         return $this->render('reg.html.twig', [
             'BackRegister' => '/images/back-register.png',
             'BgFooter' => '/images/bg-footer.png',

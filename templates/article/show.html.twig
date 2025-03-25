@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+   <section class="article-details mt-[100px] ml-[50px]">
+    <div class="article-container bg-white p-8 shadow-lg rounded-lg max-w-3xl mx-auto">
+        
+        <h1 class="text-3xl font-bold text-center mb-4">{{ article.title }}</h1>
+        
+        
+        <p class="text-sm text-gray-400 mt-2 text-center">{{ article.createdAt|date("d.m.Y") }}</p>
+
+         <img src="{{ asset('uploads/articles/' ~ article.image) }}" alt="Article Image" class="mt-4 max-w-full h-auto rounded-lg">
+
+        
+        <div class="article-description mt-6 text-lg text-gray-700 leading-relaxed space-y-4">
+            <p>{{ article.description }}</p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -2,7 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
+use App\Repository\ArticleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,10 +22,12 @@ class InfoForHomeController extends AbstractController
      * @return Response 
      */
     #[Route('/', name: 'homepage')]
-    public function home(): Response
+    public function home(ArticleRepository $articleRepository): Response
     {
         
         $currentDate = new \DateTime();
+
+        $articles = $articleRepository->findAll(); 
 
         
         return $this->render('infoForHome.html.twig', [
@@ -44,6 +51,53 @@ class InfoForHomeController extends AbstractController
             'fashionOfTitle' => 'Blog photorealistic rendering as real photos', 
             'fashionOfParagraph' => 'Effectively enhance collaborative platforms with well-designed features. Ensure seamless content creation and engagement for a credible blogging experience.', 
             'IconLogout' => '/images/IconLogout.png',
+            'articles' => $articles,
+            'dots' => '/images/dots.png', 
         ]);
     }
+
+
+    /**
+     * Redirects to the edit page of a specific article.
+     * 
+     * @param int $id
+     * @return Response
+     */
+    #[Route('/article/edit/{id}', name: 'article_edit', methods: ['GET'])]
+    public function edit(int $id): Response
+    {
+        return $this->redirectToRoute('article_edit_form', ['id' => $id]);
+    }
+    
+      /**
+     * Deletes an article by ID.
+     * 
+     * @param int $id
+     * @param ArticleRepository $articleRepository
+     * @param EntityManagerInterface $entityManager
+     * @param Request $request
+     * @return JsonResponse
+     */
+
+ #[Route('/article/delete', name: 'article_delete', methods: ['POST'])]
+
+public function deleteArticle(Request $request, EntityManagerInterface $entityManager, ArticleRepository $articleRepository): JsonResponse
+{
+    $data = json_decode($request->getContent(), true);
+    $articleId = $data['id'] ?? null;
+
+    if (!$articleId) {
+        return new JsonResponse(['error' => 'Нема потрібного ID'], 400);
+    }
+
+    $article = $articleRepository->find($articleId);
+    if (!$article) {
+        return new JsonResponse(['error' => 'Статя не знайдена...'], 404);
+    }
+
+    $entityManager->remove($article);
+    $entityManager->flush();
+
+    return new JsonResponse(['success' => 'Статя видалена']);
+}
 }

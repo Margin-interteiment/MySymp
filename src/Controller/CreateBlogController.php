@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
+use App\Repository\ArticleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +25,12 @@ class CreateBlogController extends AbstractController
      * @return Response 
      */
     #[Route('/createBlog', name: 'createBlog')]
-    public function createBlog(Request $request): Response
+    public function createBlog(Request $request, EntityManagerInterface $entityManager, ArticleRepository $articleRepository): Response
     {
        
-        $form = $this->createFormBuilder()
+        $article = new Article();
+
+        $form = $this->createFormBuilder($article)
             ->add('title', TextType::class, [
                 'label' => 'Назва',
                 'attr' => ['placeholder' => 'Назва блогу', 'class' => 'w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500']
@@ -44,7 +49,28 @@ class CreateBlogController extends AbstractController
             ])
             ->getForm();
 
-      
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $imageFile = $form->get('image')->getData();
+    
+                if ($imageFile) {
+                   
+                    $newFilename = uniqid().'.'.$imageFile->guessExtension();
+                    $imageFile->move(
+                        $this->getParameter('articles_images_directory'), 
+                        $newFilename
+                    );                
+                    $article->setImage($newFilename);
+                }
+    
+                $article->setCreatedAt(new \DateTime());
+                $entityManager->persist($article);
+                $entityManager->flush();
+    
+                return $this->redirectToRoute('homepage');
+            }
+
         return $this->render('createBlog.html.twig', [
             'title' => 'Створити новий блог',
             'imageUrlForHeaderOne' => '/images/backForHeaderOne.png',
@@ -57,7 +83,7 @@ class CreateBlogController extends AbstractController
             'homeLink' => 'Home',
             'aboutLink' => 'About Blog',
             'adventureText' => 'ADVENTURE',
-            'titleOfHeader' => 'Richird Norton photorealistic rendering as real photos',
+            'titleOfHeader' => 'Blog photorealistic rendering as real photos',
             'createBlogTitle' => 'Створити новий блог',
             'createBlogName' => 'Назва',
             'createBlogDesc' => 'Опис',
