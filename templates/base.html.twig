@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Головна сторінка{% endblock %}</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="{{ asset('node_modules/swiper/swiper-bundle.min.css') }}">
+    <script src="{{ asset('node_modules/swiper/swiper-bundle.min.js') }}" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</head>
+<body class="bg-[#F8F9FA] h-screen">  
+
+
+ {% include 'includes/header.html.twig' with {
+        imageUrlForHeaderOne: imageUrlForHeaderOne,
+        imageUrlForHeaderTwo: imageUrlForHeaderTwo,
+        imageUrlForHeaderThree: imageUrlForHeaderThree,
+        imageUrlForHeaderFour: imageUrlForHeaderFour,
+        imageUrlForHeaderFive: imageUrlForHeaderFive,
+        logo: logo,
+        homeLink: homeLink,
+        aboutLink: aboutLink,
+        adventureText: adventureText,
+        titleOfHeader: titleOfHeader,
+        currentDate: currentDate,
+       
+    } %}
+
+
+    <main class="main">
+        {% block content %}{% endblock %}
+    </main>
+
+
+{% include 'includes/footer.html.twig' %}
+
+ <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            new Swiper(".mySwiper", {
+                loop: true,
+                 autoplay: {
+                    delay: 3000,
+                     disableOnInteraction: false,
+                 },
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+            })
+        })
+    </script>
+
+
+</body>
+</html>

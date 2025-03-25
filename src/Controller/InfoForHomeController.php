@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Controller for the homepage.
  */
-class HomeController extends AbstractController
+class InfoForHomeController extends AbstractController
 {
     /**
      * Renders the homepage.
@@ -23,7 +23,7 @@ class HomeController extends AbstractController
         $currentDate = new \DateTime();
 
         
-        return $this->render('base.html.twig', [
+        return $this->render('infoForHome.html.twig', [
             'title' => 'Blog Page',
             'imageUrlForHeaderOne' => '/images/backForHeaderOne.png',
             'imageUrlForHeaderTwo' => '/images/backForHeaderTwo.png',

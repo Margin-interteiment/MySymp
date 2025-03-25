@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}About us{% endblock %}
+
+
+    {% block content %}
+
+    <section class="container mx-auto px-4 py-8"> 
+     <h1 class="text-[36px] color-[#495057]">{{AboutTitle}}</h1> 
+        <div class="flex justify-between text-gray-500 text-sm mt-[30px]">
+            <span>{{ currentDate|date("d.m.Y") }}</span>
+            <span>{{AboutTime}}</span>
+        </div>
+        <article class="mt-4 text-lg text-gray-700 leading-relaxed">
+            <p>{{AboutTextOne}}</p>
+            <p class="mt-[20px]">
+            {{AboutTextTwo}}
+            </p>
+            <blockquote class="mt-6 text-2xl text-orange-400 font-serif border-l-4 border-orange-300 pl-4">
+               {{AboutTextThree}}
+            </blockquote>
+            <p class="mt-4">{{AboutTextFour}}</p>
+        </article>
+        <div class="mt-8 border-t border-gray-300 pt-4 flex items-center">
+            <img src={{imageUrlForHeaderThree}} alt="photo" class="w-12 h-12 rounded-full">
+            <div class="ml-4">
+                <p class="font-semibold">{{AboutBlogAuthor}}</p>
+                <p class="text-gray-500 text-sm">{{AboutBlogAuthorOfDesc}}</p>
+            </div>
+        </div>
+        </section>
+
+
+     <section class="PopularTopics mt-[100px] ml-[50px]"> 
+
+      <h2 class="text-[36px] color-[#495057] ml-[163px]">{{PopularTopics}}</h2>
+
+     </section>
+
+   {% endblock %}
+
+
