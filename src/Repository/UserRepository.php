@@ -49,4 +49,3 @@ class UserRepository extends ServiceEntityRepository
         return $this->findAll();
     }
 }
-

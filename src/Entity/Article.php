@@ -20,48 +20,19 @@ class Article
     #[ORM\Column(type: Types::TEXT)]
     private string $description;
 
-    // #[ORM\Column(length: 255)]
-    // private string $image;
-
-    // #[ORM\Column(type: 'blob', nullable: true)]
-    // private $image;
-
-
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $image = null;
-
-
-
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
-    // #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'articles')]
-    // #[ORM\JoinColumn(nullable: false)]
-    // private User $user;
-
-
-
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'articles')]
-    #[ORM\JoinColumn(nullable: true)] 
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 
-
-
-
-
-
-    // #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'articles')]
-    // #[ORM\JoinColumn(nullable: false)]
-    // private Category $category;
-
-
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'articles')]
-    #[ORM\JoinColumn(nullable: true)] 
+    #[ORM\JoinColumn(nullable: true)]
     private ?Category $category = null;
-
-
 
     public function getId(): int
     {
@@ -90,18 +61,6 @@ class Article
         return $this;
     }
 
-    // public function getImage(): string
-    // {
-    //     return $this->image;
-    // }
-
-    // public function setImage(string $image): static
-    // {
-    //     $this->image = $image;
-    //     return $this;
-    // }
-
-
     public function getImage()
     {
         return $this->image;
@@ -113,31 +72,16 @@ class Article
         return $this;
     }
 
-
-    // public function getCreatedAt(): \DateTimeInterface
-    // {
-    //     return $this->createdAt;
-    // }
-
-    // public function setCreatedAt(\DateTimeInterface $createdAt): static
-    // {
-    //     $this->createdAt = $createdAt;
-    //     return $this;
-    // }
-
-
     public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }
 
-  
     public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
         $this->createdAt = $createdAt;
         return $this;
     }
-
 
     public function getUser(): User
     {
@@ -150,12 +94,12 @@ class Article
         return $this;
     }
 
-    public function getCategory(): Category
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(Category $category): static
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
         return $this;

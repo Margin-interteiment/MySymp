@@ -3,16 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Category;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
  * Controller for editing an article.
@@ -24,7 +27,8 @@ class EditOfPageController extends AbstractController
     {
         $articleOfPage = $articleRepository->find($id);
 
-        $form = $this->createFormBuilder($articleOfPage)
+        $form = $this
+            ->createFormBuilder($articleOfPage)
             ->add('title', TextType::class, [
                 'label' => 'Назва',
                 'attr' => ['placeholder' => 'Назва блогу', 'class' => 'w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500']
@@ -37,7 +41,15 @@ class EditOfPageController extends AbstractController
                 'label' => 'Завантажити зображення',
                 'required' => false,
                 'attr' => ['class' => 'w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'],
-                'data_class' => null 
+                'data_class' => null
+            ])
+            ->add('category', EntityType::class, [
+                'label' => 'Категорія',
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'expanded' => false,
+                'multiple' => false,
+                'attr' => ['class' => 'w-[300px] p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mt-4'],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Зберегти зміни',
@@ -51,16 +63,16 @@ class EditOfPageController extends AbstractController
             $imageFile = $form->get('image')->getData();
 
             if ($imageFile) {
-                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+                $newFilename = uniqid() . '.' . $imageFile->guessExtension();
                 $imageFile->move(
-                    $this->getParameter('articles_images_directory'), 
+                    $this->getParameter('articles_images_directory'),
                     $newFilename
                 );
 
                 $articleOfPage->setImage($newFilename);
             }
 
-            $entityManager->flush(); 
+            $entityManager->flush();
         }
 
         return $this->render('article/edit.html.twig', [
@@ -73,17 +85,17 @@ class EditOfPageController extends AbstractController
             'imageUrlForHeaderFive' => '/images/backForHeaderFive.png',
             'logo' => '/images/logo.png',
             'currentDate' => new \DateTime(),
-            'homeLink' =>'Home', 
+            'homeLink' => 'Home',
             'aboutLink' => 'About Blog',
-            'createBlog' => 'Create Blog', 
-            'adventureText' => 'ADVENTURE', 
-            'titleOfHeader' =>  'Blog photorealistic rendering as real photos', 
+            'createBlog' => 'Create Blog',
+            'adventureText' => 'ADVENTURE',
+            'titleOfHeader' => 'Blog photorealistic rendering as real photos',
             'MyTopics' => 'My topics',
             'PopularTopics' => 'Popular topics',
             'ImageForFashion' => '/images/fashionInfo.png',
-            'fashionOfText' => 'FASHION', 
-            'fashionOfTitle' => 'Blog photorealistic rendering as real photos', 
-            'fashionOfParagraph' => 'Effectively enhance collaborative platforms with well-designed features. Ensure seamless content creation and engagement for a credible blogging experience.', 
+            'fashionOfText' => 'FASHION',
+            'fashionOfTitle' => 'Blog photorealistic rendering as real photos',
+            'fashionOfParagraph' => 'Effectively enhance collaborative platforms with well-designed features. Ensure seamless content creation and engagement for a credible blogging experience.',
             'IconLogout' => '/images/IconLogout.png',
         ]);
     }
