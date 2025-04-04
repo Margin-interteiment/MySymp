@@ -1,0 +1,32 @@
+security:
+  password_hashers:
+    Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "auto"
+
+  providers:
+    users_in_database:
+      entity:
+        class: App\Entity\User
+        property: email
+
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+
+    main:
+      lazy: true
+      provider: users_in_database
+      form_login:
+        login_path: login
+        check_path: login
+        default_target_path: homepage
+        username_parameter: email
+        password_parameter: password
+      logout:
+        path: app_logout
+        target: login
+
+  access_control:
+    - { path: ^/login, roles: PUBLIC_ACCESS }
+    - { path: ^/registration, roles: PUBLIC_ACCESS }
+    - { path: ^/, roles: ROLE_USER }

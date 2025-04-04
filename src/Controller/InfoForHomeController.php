@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,18 +19,23 @@ class InfoForHomeController extends AbstractController
 {
     /**
      * Renders the homepage.
-     * 
-     * @return Response 
+     *
+     * @return Response
      */
     #[Route('/', name: 'homepage')]
-    public function home(ArticleRepository $articleRepository): Response
+    public function home(ArticleRepository $articleRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
-        
         $currentDate = new \DateTime();
 
-        $articles = $articleRepository->findAll(); 
+        $categories = $categoryRepository->findAll();
 
-        
+        $categoryId = $request->query->get('category');
+        if ($categoryId) {
+            $articles = $articleRepository->findBy(['category' => $categoryId]);
+        } else {
+            $articles = $articleRepository->findAll();
+        }
+
         return $this->render('infoForHome.html.twig', [
             'title' => 'Blog Page',
             'imageUrlForHeaderOne' => '/images/backForHeaderOne.png',
@@ -38,29 +44,28 @@ class InfoForHomeController extends AbstractController
             'imageUrlForHeaderFour' => '/images/backForHeaderFour.png',
             'imageUrlForHeaderFive' => '/images/backForHeaderFive.png',
             'logo' => '/images/logo.png',
-            'currentDate' => $currentDate, 
-            'homeLink' =>'Home', 
+            'currentDate' => $currentDate,
+            'homeLink' => 'Home',
             'aboutLink' => 'About Blog',
-            'createBlog' => 'Create Blog', 
-            'adventureText' => 'ADVENTURE', 
-            'titleOfHeader' =>  'Blog photorealistic rendering as real photos', 
+            'createBlog' => 'Create Blog',
+            'adventureText' => 'ADVENTURE',
+            'titleOfHeader' => 'Blog photorealistic rendering as real photos',
             'MyTopics' => 'My topics',
             'PopularTopics' => 'Popular topics',
             'ImageForFashion' => '/images/fashionInfo.png',
-            'fashionOfText' => 'FASHION', 
-            'fashionOfTitle' => 'Blog photorealistic rendering as real photos', 
-            'fashionOfParagraph' => 'Effectively enhance collaborative platforms with well-designed features. Ensure seamless content creation and engagement for a credible blogging experience.', 
+            'fashionOfText' => 'FASHION',
+            'fashionOfTitle' => 'Blog photorealistic rendering as real photos',
+            'fashionOfParagraph' => 'Effectively enhance collaborative platforms with well-designed features. Ensure seamless content creation and engagement for a credible blogging experience.',
             'IconLogout' => '/images/IconLogout.png',
             'articles' => $articles,
-            'dots' => '/images/dots.png', 
+            'categories' => $categories,
+            'dots' => '/images/dots.png',
         ]);
     }
-
 
     /**
      * Redirects to the edit page of a specific article.
      * 
-     * @param int $id
      * @return Response
      */
     #[Route('/article/edit/{id}', name: 'article_edit', methods: ['GET'])]
@@ -68,36 +73,30 @@ class InfoForHomeController extends AbstractController
     {
         return $this->redirectToRoute('article_edit_form', ['id' => $id]);
     }
-    
-      /**
+
+    /**
      * Deletes an article by ID.
      * 
-     * @param int $id
-     * @param ArticleRepository $articleRepository
-     * @param EntityManagerInterface $entityManager
-     * @param Request $request
      * @return JsonResponse
      */
+    #[Route('/article/delete', name: 'article_delete', methods: ['POST'])]
+    public function deleteArticle(Request $request, EntityManagerInterface $entityManager, ArticleRepository $articleRepository): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $articleId = $data['id'] ?? null;
 
- #[Route('/article/delete', name: 'article_delete', methods: ['POST'])]
+        if (!$articleId) {
+            return new JsonResponse(['error' => 'Нема потрібного ID'], 400);
+        }
 
-public function deleteArticle(Request $request, EntityManagerInterface $entityManager, ArticleRepository $articleRepository): JsonResponse
-{
-    $data = json_decode($request->getContent(), true);
-    $articleId = $data['id'] ?? null;
+        $article = $articleRepository->find($articleId);
+        if (!$article) {
+            return new JsonResponse(['error' => 'Статя не знайдена...'], 404);
+        }
 
-    if (!$articleId) {
-        return new JsonResponse(['error' => 'Нема потрібного ID'], 400);
+        $entityManager->remove($article);
+        $entityManager->flush();
+
+        return new JsonResponse(['success' => 'Статя видалена']);
     }
-
-    $article = $articleRepository->find($articleId);
-    if (!$article) {
-        return new JsonResponse(['error' => 'Статя не знайдена...'], 404);
-    }
-
-    $entityManager->remove($article);
-    $entityManager->flush();
-
-    return new JsonResponse(['success' => 'Статя видалена']);
-}
 }

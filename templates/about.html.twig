@@ -1,52 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}About us{% endblock %}
+{% block title %}
+	About us
+{% endblock %}
 
-    {% block content %}
+{% block content %}
 
-    <section class="container mx-auto px-4 py-8"> 
-     <h1 class="text-[36px] color-[#495057]">{{AboutTitle}}</h1> 
-        <div class="flex justify-between text-gray-500 text-sm mt-[30px]">
-            <span>{{ currentDate|date("d.m.Y") }}</span>
-            <span>{{AboutTime}}</span>
-        </div>
-        <article class="mt-4 text-lg text-gray-700 leading-relaxed">
-            <p>{{AboutTextOne}}</p>
-            <p class="mt-[20px]">
-            {{AboutTextTwo}}
-            </p>
-            <blockquote class="mt-6 text-2xl text-orange-400 font-serif border-l-4 border-orange-300 pl-4">
-               {{AboutTextThree}}
-            </blockquote>
-            <p class="mt-4">{{AboutTextFour}}</p>
-        </article>
-        <div class="mt-8 border-t border-gray-300 pt-4 flex items-center">
-            <img src={{imageUrlForHeaderThree}} alt="photo" class="w-12 h-12 rounded-full">
-            <div class="ml-4">
-                <p class="font-semibold">{{AboutBlogAuthor}}</p>
-                <p class="text-gray-500 text-sm">{{AboutBlogAuthorOfDesc}}</p>
-            </div>
-        </div>
-        </section>
-
-
-     <section class="PopularTopics mt-[100px] ml-[50px]"> 
-      <h2 class="text-[36px] color-[#495057] ml-[163px]">{{PopularTopics}}</h2>
-      <div class="flex flex-wrap gap-4 gap-[calc(var(--spacing)*7)] ml-[100px] mt-[100px]">
-     {% for article in articles|slice(0, 3) %}
-    <div class="article bg-gray-100 p-4 rounded-lg shadow-md mt-4 w-[500px] h-[500px] flex flex-col justify-between relative" id="article-{{ article.id }}">
-        <a href="{{ path('article_show', {'id': article.id}) }}" class="flex flex-col justify-between">
-            <img src="{{ asset('uploads/articles/' ~ article.image) }}" alt="Article Image" class="mt-4 max-w-full h-auto rounded-lg">
-            <h3 class="text-xl font-bold mt-4">{{ article.title }}</h3>
-            <p class="text-sm text-gray-400 mt-2">{{ article.createdAt|date("d.m.Y") }}</p>
-        </a>
-    </div>
-   {% else %}
-    <p class="text-gray-500">Статей ще немає...</p>
-   {% endfor %}
-    </div>
-   </section>
-
-   {% endblock %}
+	<section class="container mx-auto px-4 py-8">
+		<h1 class="text-[36px] color-[#495057]">{{AboutTitle}}</h1>
+		<div class="flex justify-between text-gray-500 text-sm mt-[30px]">
+			<span>{{ currentDate|date("d.m.Y") }}</span>
+			<span>{{AboutTime}}</span>
+		</div>
+		<article class="mt-4 text-lg text-gray-700 leading-relaxed">
+			<p>{{AboutTextOne}}</p>
+			<p class="mt-[20px]">
+				{{AboutTextTwo}}
+			</p>
+			<blockquote class="mt-6 text-2xl text-orange-400 font-serif border-l-4 border-orange-300 pl-4">
+				{{AboutTextThree}}
+			</blockquote>
+			<p class="mt-4">{{AboutTextFour}}</p>
+		</article>
+		<div class="mt-8 border-t border-gray-300 pt-4 flex items-center">
+			<img src={{imageUrlForHeaderThree}} alt="photo" class="w-12 h-12 rounded-full">
+			<div class="ml-4">
+				<p class="font-semibold">{{AboutBlogAuthor}}</p>
+				<p class="text-gray-500 text-sm">{{AboutBlogAuthorOfDesc}}</p>
+			</div>
+		</div>
+	</section>
 
 
+	<section class="PopularTopics mt-[100px] ml-[50px]">
+		<h2 class="text-[36px] color-[#495057] ml-[163px]">{{PopularTopics}}</h2>
+		<div class="flex flex-wrap gap-4 gap-[calc(var(--spacing)*7)] ml-[100px] mt-[100px]">
+			{% for article in articles|slice(0, 3) %}
+				<div class="article bg-gray-100 p-4 rounded-lg shadow-md mt-4 w-[500px] h-[500px] flex flex-col justify-between relative  ml-[50px]" id="article-{{ article.id }}">
+					<a href="{{ path('article_show', {'id': article.id}) }}" class="flex flex-col justify-between">
+						<img src="{{ asset('uploads/articles/' ~ article.image) }}" alt="Article Image" class="mt-4 max-w-full h-auto rounded-lg">
+						<h3 class="text-xl font-bold mt-4">{{ article.title }}</h3>
+						<p class="text-sm text-gray-400 mt-2">{{ article.createdAt|date("d.m.Y") }}</p>
+					</a>
+				</div>
+			{% else %}
+				<p class="text-gray-500">Статей ще немає...</p>
+			{% endfor %}
+		</div>
+	</section>
+
+{% endblock %}

@@ -1,38 +1,38 @@
-<!DOCTYPE html>
-<html lang="ua">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вхід</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-</head>
-<body class="bg-[#A0BEDE]">
-    <main> 
-        <section class="h-screen flex flex-col justify-between bg-cover bg-center bg-no-repeat m-0" 
-                 style="background-image: url('{{ asset(BackRegister) }}');">
-            <div class="flex-grow flex justify-center items-center bg-cover bg-center bg-no-repeat" 
-                 style="background-image: url('{{ asset(Clouds) }}');">
-                <form method="post" 
-                      class="space-y-6 bg-[#F7F5F2]/50 p-8 rounded-xl shadow-md w-full max-w-lg mx-auto h-[562px] bg-cover bg-center bg-no-repeat" 
-                      style="background-image: url('{{ asset(BackForm) }}');"
-                      action="{{ path('homepage') }}">
-                    {{ form_start(formEnter) }}
-                    <h2 class="text-center text-white text-[25px] font-semibold">Login</h2>
-                    <div>
-                        {{ form_label(formEnter.email, 'Ваш email', {'label_attr': {'class': 'block text-lg font-semibold text-white'}}) }}
-                        {{ form_widget(formEnter.email, {'attr': {'class': 'w-full p-3 border-b border-white focus:outline-none focus:ring-0 bg-transparent', 'placeholder': ''}}) }}
-                    </div>
-                    <div>
-                        {{ form_label(formEnter.password, 'Ваш пароль', {'label_attr': {'class': 'block text-lg font-semibold text-white'}}) }}
-                        {{ form_widget(formEnter.password, {'attr': {'class': 'w-full p-3 border-b border-white focus:outline-none focus:ring-0 bg-transparent', 'placeholder': ''}}) }}
-                    </div>
-                    <div class="mt-8">
-                        {{ form_widget(formEnter.submit, {'attr': {'class': 'w-full bg-[#CB4C96] text-white font-semibold py-3 rounded-lg transition duration-300 ease-in-out hover:bg-[#89A7D6] mt-[50px]'}}) }}
-                    </div>
-                    {{ form_end(formEnter) }}
-                </form>
-            </div>
-        </section>      
-    </main>
-</body>
-</html>
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Вхід
+{% endblock %}
+
+
+{% block body %}
+	<body class="bg-[#A0BEDE]">
+
+		<section class="h-screen flex flex-col justify-between bg-cover bg-center bg-no-repeat m-0" style="background-image: url('{{ asset(BackRegister) }}');">
+			<div class="flex-grow flex justify-center items-center bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset(Clouds) }}');">
+
+				<form method="post" class="space-y-6 bg-[#F7F5F2]/50 p-8 rounded-xl shadow-md w-full max-w-lg mx-auto h-[562px] bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset(BackForm) }}');">
+					<h2 class="text-center text-white text-[25px] font-semibold">Login</h2>
+
+					<label for="email" class="block text-lg text-white">Email:</label>
+					<input type="email" id="username" name="email" class="w-full p-3 border-b border-white focus:outline-none focus:ring-0 bg-transparent" required>
+
+					<label for="password" class="block text-lg text-white mt-[33px]">Ваш пароль:</label>
+					<input type="password" id="password" name="password" class="w-full p-3 border-b border-white focus:outline-none focus:ring-0 bg-transparent mt-[20px]" required>
+
+					<button type="submit" class="w-full bg-black text-white font-semibold py-3 rounded-lg transition duration-300 ease-in-out hover:bg-blue-600 mt-[131px]">
+						Увійти
+					</button>
+
+					<p class="relative top-5 left-20">
+						Немає акаунта?
+						<a href="{{ path('registration') }}" class="text-[#5A6B84] hover:text-[#3F506B] underline transition duration-300">
+							Зареєструватися
+						</a>
+					</p>
+				</form>
+			</div>
+		</section>
+
+	</body>
+</html>{% endblock %}

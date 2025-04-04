@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,16 +17,15 @@ class AboutController extends AbstractController
     /**
      * Displays the "About Blog" page.
      *
-     * @return Response 
+     * @return Response
      */
     #[Route('/about', name: 'about')]
     public function index(ArticleRepository $articleRepository): Response
     {
-        
         $currentDate = new \DateTime();
 
-        $articles = $articleRepository->findAll(); 
-       
+        $articles = $articleRepository->findAll();
+
         return $this->render('about.html.twig', [
             'title' => 'About Page',
             'imageUrlForHeaderOne' => '/images/backForHeaderOne.png',
