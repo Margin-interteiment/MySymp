@@ -21,6 +21,9 @@
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
+
+    <base href="https://symfony.web-service.pp.ua/">
+
 	</head>
 	<body class="bg-[#F8F9FA] h-screen">
 
@@ -46,8 +49,8 @@
 
 				{% include 'includes/footer.html.twig' %}
 
-			{% endblock %}
-
+			{% endif %}
+{% endblock %}
            <script>
             document.addEventListener("DOMContentLoaded", function () {
             new Swiper(".mySwiper", {
